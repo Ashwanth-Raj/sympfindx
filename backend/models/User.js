@@ -25,26 +25,24 @@ const userSchema = new mongoose.Schema({
     default: 'patient'
   },
   phone: String,
-  dateOfBirth: Date,
-  medicalHistory: [{
-    condition: String,
-    diagnosedDate: Date,
-    notes: String
-  }],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  specialization: String,
+  licenseNumber: String
+}, {
+  timestamps: true
 });
 
-// Hash password before saving
+// Hash password
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
-// Compare password method
+// Compare password
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };

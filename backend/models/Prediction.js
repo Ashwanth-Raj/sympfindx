@@ -48,13 +48,11 @@ const predictionSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'reviewed', 'completed'],
+    enum: ['pending', 'in_review', 'reviewed', 'completed'],
     default: 'pending'
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
+}, {
+  timestamps: true
 });
 
 module.exports = mongoose.model('Prediction', predictionSchema);
